@@ -5,7 +5,8 @@ use Exception;
 
 use Illuminate\Http\Request;
 use App\Models\Categories;
-use Faker\Core\File;
+use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class CategoryController extends Controller
 {
@@ -45,6 +46,22 @@ class CategoryController extends Controller
                 'name' => 'required|unique:brands,name',
                 'image' => 'required'
             ]);
+            $category = new Categories();
+            $path = 'assets/uploads/category/' . $category->image;
+            if(File::exists($path)){
+                File::delete($path);
+            }
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $filename = time().'.' . $ext;
+            try{
+                $file->move('assets/uploads/category/', $filename);
+
+            }catch(FileException $e){
+                dd($e);
+            }
+
+
             Categories::where('id',$id)->update(['name'=>$request->name]);
             return response()->json('category update',200);
         }catch(Exception $e){
