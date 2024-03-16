@@ -108,9 +108,21 @@ class ProductController extends Controller
                 dd($e);
             }
             $product->image = $filename;
+             $product->save();
+            return response()->json('product updated');
         }
-        $product->save();
-        return response()->json('product updated');
+        else return response()->json('product not found');
+
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+        if($product)
+        {
+            Product::where('id',$id)->delete();
+            return response()->json('product is deleted');
+        } else return response()->json('product not found');
 
     }
 }

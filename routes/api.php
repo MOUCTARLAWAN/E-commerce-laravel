@@ -54,7 +54,8 @@ Route::controller(CategoryController::class)->group(function(){
     });
 
     Route::controller(ProductController::class)->group(function(){
-
+        Route::get('index','index');
+        Route::get('show/{id}','show');
         Route::post('store','store');
         Route::put('update/{id}','update');
         Route::delete('destroy/{id}','destroy');
