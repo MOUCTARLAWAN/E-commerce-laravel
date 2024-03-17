@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Models\Brands;
+use App\Models\Order;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +62,12 @@ Route::controller(CategoryController::class)->group(function(){
         Route::put('update/{id}','update');
         Route::delete('destroy/{id}','destroy');
         });
+
+Route::controller(OrderController::class)->group(function(){
+    Route::get('index','index');
+    Route::get('show/{id}','show');
+    Route::post('store','store');
+    Route::get('get_order_items/{id}','get_order_items');
+    Route::get('get_user_order/{id}','get_user_order');
+    Route::post('change_order_status/{id}','change_order_status');
+});

@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->enum('status',['Delivered','Out for Delivery','Canceled','Accepted'])->default('Pending');
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('location_id')->unsigned();
+            $table->double('total_price',12,2);
+            $table->string('date_of_delivery');
+
+            $table->foreignId('user_id')->references('id')->on('user')->onDelete('cascade');
+            $table->foreignId('location_id')->references('id')->on('locations')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
